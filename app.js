@@ -2,12 +2,15 @@ const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const dbgr = require("debug")('dev:app')
+
 require("dotenv").config();
 
 const connectDB = require("./config/mongooseConnect");
 const usersRouter = require("./routes/usersRouter")
 const ownersRouter = require("./routes/ownersRouter")
-const productsRouter = require("./routes/productsRouter")
+const productsRouter = require("./routes/productsRouter");
+
 
 
 app.use(express.json());
@@ -28,10 +31,11 @@ const start = async () => {
     await connectDB(process.env.MONGO_URI);
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+      dbgr(`Server is running on port ${PORT}`);
+      console.log("check")
     });
   } catch {
-    console.log("Connection failed");
+    dbgr("Connection failed");
   }
 };
 start();
